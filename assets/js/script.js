@@ -5,6 +5,7 @@ var randomSpec = '!"#$%&'+"'"+'()*+,-./:;<=>?@[\]^_`{|}~';
 var randomNumb = '0123456789'; 
 var randomUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var randomLower = 'abcdefghijklmnopqrstuvwxyz';
+var typesSearch = '';
 
 // Ask for the number of character of the password
 
@@ -49,9 +50,8 @@ var askLenght = function() {
 // main function
 var generatePassword = function() {
 
-  var passwordString = '';
+  typesSearch = '';
   var passwdLenght = askLenght();
-  console.log(passwdLenght);
 
   // if password lenght not null (a lenght was specified)
   if (passwdLenght != null) {
@@ -68,23 +68,24 @@ var generatePassword = function() {
     // if at least one criteria was choosen
     if (confirmLower || confirmUpper || confirmSpecial || confirmNumber) {
 
-      // if yes (true) adds the set of Lowercase Letters to the password string
+      // if yes (true) adds the type Lowercase Letters to the list of types to search
       if (confirmLower) {
-        passwordString = passwordString + randomLower;
+        typesSearch = typesSearch + "l";
       }
-      // if yes (true) adds the set of Uppercase Letters to the password string
+      // if yes (true) adds the type Uppercase Letters to the list of types to search
       if (confirmUpper) {
-        passwordString = passwordString + randomUpper;
+        typesSearch = typesSearch + "u";
       }
-      // if yes (true) adss the set of numbers to the password string
+      // if yes (true) adss the type numbers to the list of types to search
       if (confirmNumber) {
-        passwordString = passwordString + randomNumb;
+        typesSearch = typesSearch + "n";
       }
-      // if yes (true) adds the set of special characters to the password string
+      // if yes (true) adds the type special characters to the list of types to search
       if (confirmSpecial) {
-        passwordString = passwordString + randomSpec;
+        typesSearch = typesSearch + "s";
       }
-      var passwordString = getRandomSpecial(passwdLenght, passwordString);
+
+      var passwordString = getRandomSpecial(passwdLenght);
 
       return passwordString;
     } else {
@@ -103,20 +104,44 @@ function writePassword() {
   
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-  console.log(passwordText);
   passwordText.value = password;
 
 }
 
 // obtain a ramdom list of characters from a given string and with a given lenght
-function getRandomSpecial(length, randomChars) {
+function getRandomSpecial(strLength) {
  
   var result = '';
-  for ( var i = 0; i < length; i++ ) {
-      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+  // lenght of type of characters string
+  var typesLenght = typesSearch.length;
+  // character type to search for
+  var resultType = '';
+
+  for ( var i = 0; i < strLength; i++ ) {
       
+      // if types lenght > 1, then are more than 1 tipe of characters to search for
+      if (typesSearch.length > 1) {
+
+        // Choose a ramdom type to search for
+        resultType = typesSearch.charAt(Math.floor(Math.random() * typesSearch.length));
+      } else {
+        resultType = typesSearch;
+      };
+      switch (resultType) {
+        case 'l':
+          result += randomLower.charAt(Math.floor(Math.random() * randomLower.length));
+          break;
+        case 'u':
+          result += randomUpper.charAt(Math.floor(Math.random() * randomUpper.length));      
+          break;
+        case 'n':
+          result += randomNumb.charAt(Math.floor(Math.random() * randomNumb.length));
+          break;
+        case 's':
+          result += randomSpec.charAt(Math.floor(Math.random() * randomSpec.length));      
+          break;
+      }
   }
-  console.log(result);
   return result;
 };
 
