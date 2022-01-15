@@ -1,10 +1,10 @@
-// Assignment code here
+
+// Create string variable with corresponding set of characters
 
 var randomSpec = '!"#$%&'+"'"+'()*+,-./:;<=>?@[\]^_`{|}~';
 var randomNumb = '0123456789'; 
 var randomUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var randomLower = 'abcdefghijklmnopqrstuvwxyz';
-var randomAll = randomLower + randomUpper + randomNumb + randomSpec;
 
 // Ask for the number of character of the password
 
@@ -15,38 +15,45 @@ var askLenght = function() {
   // ask the player for the lenght of the password
   var lenghtPasswd = window.prompt("Choose the lenght of the password, Must be a value between 8 to 128");
 
+  // if not lenght was specified (cancel buttom was pressed)
   if (lenghtPasswd == null) {
     window.alert("BYE");
     lenghtPasswd = null;
     return;
   }  else { 
   
+    // get the lenght of the number
     passwdLenght = lenghtPasswd.length;
       // convert answer from prompt to an actual number
     lenghtPasswd = parseInt(lenghtPasswd);
       
   };
 
-  // use switch case to carry out action
-
+  // If number not valid (mix of characters) or with diferent lenght after converted to integer (with decimals) or empty
   if (isNaN(lenghtPasswd) || passwdLenght != lenghtPasswd.toString().length || lenghtPasswd === null) {
       window.alert("You did not pick a valid number. Try again.");
       lenghtPasswd = null;
+      // recall the function itself
       askLenght();
+
+    // number not between 8 and 128
   } else if (lenghtPasswd < 8  || lenghtPasswd > 128) {
     window.alert("You did not entered a valid range number. Try again.");
     lenghtPasswd = null;
+    // recall the function itself
     askLenght();
   }
   return lenghtPasswd;
 };
 
+// main function
 var generatePassword = function() {
 
   var passwordString = '';
   var passwdLenght = askLenght();
   console.log(passwdLenght);
 
+  // if password lenght not null (a lenght was specified)
   if (passwdLenght != null) {
 
     // confirm lowercase letters in password
@@ -58,32 +65,28 @@ var generatePassword = function() {
     // confirm special numbers in password
     var confirmNumber = window.confirm("DO you want to use Numbers in the password?");
 
+    // if at least one criteria was choosen
     if (confirmLower || confirmUpper || confirmSpecial || confirmNumber) {
 
-      // if yes (true) search for Lowercase Letters to include in the password string
+      // if yes (true) adds the set of Lowercase Letters to the password string
       if (confirmLower) {
         passwordString = passwordString + randomLower;
-        console.log(passwordString);
       }
-      // if yes (true) search for Uppercase Letters to include in the password string
+      // if yes (true) adds the set of Uppercase Letters to the password string
       if (confirmUpper) {
         passwordString = passwordString + randomUpper;
-        console.log(passwordString);
       }
-      // if yes (true) search for a random number to include in the password string
+      // if yes (true) adss the set of numbers to the password string
       if (confirmNumber) {
         passwordString = passwordString + randomNumb;
-        console.log(passwordString);
       }
-      // if yes (true) search for a random special character to include in the password string
+      // if yes (true) adds the set of special characters to the password string
       if (confirmSpecial) {
         passwordString = passwordString + randomSpec;
-        console.log(passwordString);
       }
       var passwordString = getRandomSpecial(passwdLenght, passwordString);
 
       return passwordString;
-      console.log = passwordString;
     } else {
       window.alert ("must choose at least 1 criteria for the password");
       generatePassword();
@@ -105,9 +108,9 @@ function writePassword() {
 
 }
 
+// obtain a ramdom list of characters from a given string and with a given lenght
 function getRandomSpecial(length, randomChars) {
  
-  
   var result = '';
   for ( var i = 0; i < length; i++ ) {
       result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
@@ -115,7 +118,7 @@ function getRandomSpecial(length, randomChars) {
   }
   console.log(result);
   return result;
-  }
+};
 
 
 // Add event listener to generate button
