@@ -31,7 +31,7 @@ The following image shows the web application's appearance and functionality:
 
 ![mock-up image](./assets/images/mock-up.png)
 
-## Deployed Aplication URL:
+## Deployed Application URL:
 
 https://dieres2010.github.io/passwd-generator/
 
